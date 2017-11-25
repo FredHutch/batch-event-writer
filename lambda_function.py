@@ -8,6 +8,12 @@ import datetime
 
 from pymongo import MongoClient
 
+STATES = ['SUBMITTED', 'PENDING', 'RUNNABLE', 'STARTING',
+          'RUNNING', 'FAILED', 'SUCCEEDED']
+STATE_DICT = {}
+
+for idx, state in enumerate(STATES):
+    STATE_DICT[state] = idx
 
 def handler(event, context):
     "Lambda event handler"
@@ -30,6 +36,7 @@ def handler(event, context):
         message = obj['Message']
     detail = message['detail']
     detail['timestamp'] = datetime.datetime.now()
+    detail['statusNum'] = STATE_DICT[detail['status']]
     # copy JOB_GROUP_* environment vars (if any) to top level
     if 'container' in detail and 'environment' in detail['container']:
         env = detail['container']['environment']
