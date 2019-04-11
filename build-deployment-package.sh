@@ -19,5 +19,5 @@ echo adding lambda function...
 zip -g batch-event-writer.zip lambda_function.py
 
 echo updating function code...
-aws lambda update-function-code --function-name batch_event_writer \
+aws lambda update-function-code --function-name batch-event-writer \
   --zip-file fileb://batch-event-writer.zip
